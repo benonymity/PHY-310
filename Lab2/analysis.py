@@ -21,11 +21,11 @@ all_runs_oscillate_equations = []
 
 # Define exponential decay function for envelope fitting
 def exp_decay(t, A, tau, C):
-    return A * np.exp(-t / tau) + C
+    return A * np.exp(-t * tau) + C
 
 # Define damped oscillation function for oscillation fitting
 def oscillation(t, A, tau, C, w, p):
-    return A * np.exp(-t / tau) * np.cos(w * t + p) + C
+    return A * np.exp(-t * tau) * np.cos(w * t + p) + C
 
 # Process each run
 for i in range(len(run_starts)):
@@ -79,8 +79,8 @@ for i in range(len(run_starts)):
     all_runs_position.append(normalized_position)
     all_runs_envelope.append(envelope)
     all_runs_oscillate.append(oscillate)
-    all_runs_envelope_equations.append(f"$y = {A_env:.5f} e^{{\\frac{{-t}}{{{tau_env:.5f}}}}} + {C_env:.5f}$")
-    all_runs_oscillate_equations.append(f"$y = {A_osc:.5f} e^{{\\frac{{-t}}{{{tau_osc:.5f}}}}} \cos({w:.5f}t + {p:.5f}) + {C_osc:.5f}$")
+    all_runs_envelope_equations.append(f"$y = {A_env:.5f} e^{{-{tau_env:.5f}t}} + {C_env:.5f}$")
+    all_runs_oscillate_equations.append(f"$y = {A_osc:.5f} e^{{-{tau_osc:.5f}t}} \cos({w:.5f}t + {p:.5f}) + {C_osc:.5f}$")
 
 # Create main figure with all runs
 fig, ax = plt.subplots(figsize=(10, 6))
@@ -166,12 +166,14 @@ colors = ['green', 'orange', 'blue', 'red', 'purple']
 for i in range(len(all_runs_time)):
     fig, ax = plt.subplots(figsize=(10, 6))
     
-    color = colors[i % len(colors)]
+    color_data = colors[i % len(colors)]
+    color_envelope = colors[(i + 1) % len(colors)]
+    color_oscillation = colors[(i + 2) % len(colors)]
     
     # Plot data, envelope, and oscillation
-    ax.plot(all_runs_time[i], all_runs_position[i], label=f'Run {i+1}', color=color)
-    ax.plot(all_runs_time[i], all_runs_envelope[i], '--', alpha=0.5, label='Envelope', color=color)
-    ax.plot(all_runs_time[i], all_runs_oscillate[i], ':', alpha=0.5, label='Oscillation', color=color)
+    ax.plot(all_runs_time[i], all_runs_position[i], label=f'Run {i+1}', color=color_data)
+    ax.plot(all_runs_time[i], all_runs_envelope[i], '--', alpha=0.5, label='Envelope', color=color_envelope)
+    ax.plot(all_runs_time[i], all_runs_oscillate[i], ':', alpha=0.5, label='Oscillation', color=color_oscillation)
     
     # Set labels and grid
     ax.set_xlabel('Time (s)')
@@ -180,10 +182,9 @@ for i in range(len(all_runs_time)):
     ax.axhline(y=0, color='r', linestyle='--', label='Center Line')
     
     # Add equation text
-    ax.text(0.05, 0.95, f"Envelope: {all_runs_envelope_equations[i]}\nOscillation: {all_runs_oscillate_equations[i]}", 
-            transform=ax.transAxes, fontsize=8, verticalalignment='top', 
+    ax.text(0.5, 0.95, f"Envelope: {all_runs_envelope_equations[i]}\nOscillation: {all_runs_oscillate_equations[i]}", 
+            transform=ax.transAxes, fontsize=8, verticalalignment='top', horizontalalignment='center',
             bbox=dict(boxstyle='round', facecolor='white', alpha=0.7))
-    
     ax.legend()
     
     # Save the figure
