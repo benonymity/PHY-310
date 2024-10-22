@@ -1,0 +1,3 @@
+Total resistance: 26.3 Ohms
+Coil resistance: 3.7 Ohms
+Function generator: 4 V, 10 & 100 Hz
