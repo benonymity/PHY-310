@@ -67,5 +67,5 @@ plt.show()
 plt.savefig('images/avg_peak_voltage_vs_frequency.png')
 plt.close()
 
-for freq, voltage in zip(avg_frequencies, avg_voltages):
-    print(f"Frequency: {freq:.2f} Hz, Average Peak-to-Peak Voltage: {voltage:.2f} V")
+# for freq, voltage in zip(avg_frequencies, avg_voltages):
+#     print(f"Frequency: {freq:.2f} Hz, Average Peak-to-Peak Voltage: {voltage:.2f} V")
