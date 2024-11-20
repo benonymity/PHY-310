@@ -32,10 +32,10 @@ def draw_line(event, x, y, flags, param):
         mid_point = (int((points[0][0] + points[1][0])/2), 
                     int((points[0][1] + points[1][1])/2))
         cv2.putText(img, f'{length:.1f} px', mid_point,
-                   cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0,0,255), 2)
+                   cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255,0,0), 2)
 
 # Read image
-img = cv2.imread('images/data.jpg')
+img = cv2.imread('images/magnification.jpg')
 cv2.namedWindow('Draw Lines')
 cv2.setMouseCallback('Draw Lines', draw_line)
 
